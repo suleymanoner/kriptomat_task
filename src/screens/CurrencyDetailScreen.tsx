@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {WHITE} from '../utils/Config';
 
 interface CurrencyDetailProps {
   navigation: any;
@@ -23,7 +24,7 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: WHITE,
   },
   top_container: {
     flexDirection: 'row',
