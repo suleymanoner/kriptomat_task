@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  Linking,
 } from 'react-native';
 import {onGetCurrencies} from '../redux/actions/Actions';
 import {ApplicationState} from '../redux/store';
 import {CryptoState} from '../redux/models/types';
 import {connect} from 'react-redux';
 import CryptoCard from '../components/CryptoCard';
-import {STONEWALL_GREY, VS_CURRENCY, WHITE} from '../utils/Config';
+import {STONEWALL_GREY, VS_CURRENCY, WEBSITE_URL, WHITE} from '../utils/Config';
 import {ButtonWithText} from '../components/ButtonWithText';
 interface HomeScreenProps {
   navigation: any;
@@ -74,7 +75,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           onTap={() => {}}
           symbol={'BTC'}
           current_price={3.19973}
-          change_in_day={12.49}
+          change_in_day={-12.49}
         />
       </View>
 
@@ -90,7 +91,10 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
       </View>
 
       <View style={styles.button_container}>
-        <ButtonWithText title="Kriptomat account" onTap={() => {}} />
+        <ButtonWithText
+          title="Kriptomat account"
+          onTap={() => Linking.openURL(WEBSITE_URL)}
+        />
       </View>
     </View>
   );

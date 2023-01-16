@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 17,
     color: WHITE,
-    fontWeight: '800',
+    fontWeight: '700', // 600 seems to thin, so I changed it to the 700.
   },
 });
 
