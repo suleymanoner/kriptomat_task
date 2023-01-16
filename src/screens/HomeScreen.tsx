@@ -13,7 +13,8 @@ import {ApplicationState} from '../redux/store';
 import {CryptoState} from '../redux/models/types';
 import {connect} from 'react-redux';
 import CryptoCard from '../components/CryptoCard';
-import {VS_CURRENCY, WHITE} from '../utils/Config';
+import {STONEWALL_GREY, VS_CURRENCY, WHITE} from '../utils/Config';
+import {ButtonWithText} from '../components/ButtonWithText';
 interface HomeScreenProps {
   navigation: any;
   reducer: CryptoState;
@@ -58,23 +59,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
         </TouchableOpacity>
       </View>
 
-      <View>
-        <FlatList
-          style={styles.list_style}
-          data={currencies}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <CryptoCard
-              name={item.name}
-              symbol={item.symbol}
-              image={item.image}
-              current_price={item.current_price}
-              change_in_day={item.price_change_percentage_24h}
-              onTap={() => {}}
-            />
-          )}
-        />
-
+      <View style={{flex: 1}}>
         <CryptoCard
           image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/183px-Bitcoin.svg.png"
           name="Bitcoin"
@@ -103,6 +88,10 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         </TouchableOpacity>
       </View>
+
+      <View style={styles.button_container}>
+        <ButtonWithText title="Kriptomat account" onTap={() => {}} />
+      </View>
     </View>
   );
 };
@@ -120,6 +109,12 @@ const styles = StyleSheet.create({
   search_bar_container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  button_container: {
+    borderTopColor: STONEWALL_GREY,
+    borderTopWidth: 1,
+    width: Dimensions.get('screen').width / 1.15,
+    alignSelf: 'center',
   },
   image: {
     width: Dimensions.get('window').width / 2.5,
@@ -146,3 +141,24 @@ const HomeScreen = connect(mapToStateProps, {
 })(_HomeScreen);
 
 export {HomeScreen};
+
+/**
+ *
+ *
+ *
+ *   <FlatList
+          style={styles.list_style}
+          data={currencies}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <CryptoCard
+              name={item.name}
+              symbol={item.symbol}
+              image={item.image}
+              current_price={item.current_price}
+              change_in_day={item.price_change_percentage_24h}
+              onTap={() => {}}
+            />
+          )}
+        />
+ */
