@@ -33,6 +33,37 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
     onGetCurrencies(VS_CURRENCY);
   };
 
+  const goDetails = (
+    name: string,
+    symbol: string,
+    image: string,
+    current_price: number,
+    price_change_percentage_24h: number,
+    low_24h: number,
+    high_24h: number,
+    total_volume: number,
+    market_cap: number,
+    circulating_supply: number,
+  ) => {
+    navigation.navigate('CurrencyDetailScreen', {
+      name,
+      symbol,
+      image,
+      current_price,
+      price_change_percentage_24h,
+      low_24h,
+      high_24h,
+      total_volume,
+      market_cap,
+      circulating_supply,
+    });
+  };
+
+  /*
+  useEffect(() => {
+    getCurrencies();
+  }, [currencies]); */
+
   //getCurrencies();
 
   return (
@@ -60,34 +91,36 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
         </TouchableOpacity>
       </View>
 
-      <View style={{flex: 1}}>
-        <CryptoCard
-          image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/183px-Bitcoin.svg.png"
-          name="Bitcoin"
-          onTap={() => {}}
-          symbol={'BTC'}
-          current_price={3.19973}
-          change_in_day={12.49}
+      <View style={styles.middle_container}>
+        <FlatList
+          style={styles.list_style}
+          data={currencies}
+          initialNumToRender={15}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <CryptoCard
+              name={item.name}
+              symbol={item.symbol}
+              image={item.image}
+              current_price={item.current_price}
+              change_in_day={item.price_change_percentage_24h.toFixed(2)}
+              onTap={() =>
+                goDetails(
+                  item.name,
+                  item.symbol,
+                  item.image,
+                  item.current_price,
+                  item.price_change_percentage_24h,
+                  item.low_24h,
+                  item.high_24h,
+                  item.total_volume,
+                  item.market_cap,
+                  item.circulating_supply,
+                )
+              }
+            />
+          )}
         />
-        <CryptoCard
-          image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/183px-Bitcoin.svg.png"
-          name="Bitcoin"
-          onTap={() => {}}
-          symbol={'BTC'}
-          current_price={3.19973}
-          change_in_day={-12.49}
-        />
-      </View>
-
-      <View style={{marginTop: 50}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('CurrencyDetailScreen')}>
-          <View>
-            <Text style={{fontSize: 30, color: 'black', margin: 40}}>
-              Go Next Page
-            </Text>
-          </View>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.button_container}>
@@ -113,6 +146,9 @@ const styles = StyleSheet.create({
   search_bar_container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  middle_container: {
+    flex: 1,
   },
   button_container: {
     borderTopColor: STONEWALL_GREY,
@@ -145,24 +181,3 @@ const HomeScreen = connect(mapToStateProps, {
 })(_HomeScreen);
 
 export {HomeScreen};
-
-/**
- *
- *
- *
- *   <FlatList
-          style={styles.list_style}
-          data={currencies}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <CryptoCard
-              name={item.name}
-              symbol={item.symbol}
-              image={item.image}
-              current_price={item.current_price}
-              change_in_day={item.price_change_percentage_24h}
-              onTap={() => {}}
-            />
-          )}
-        />
- */

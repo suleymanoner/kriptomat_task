@@ -11,6 +11,7 @@ import {
 import {ButtonWithText} from '../components/ButtonWithText';
 import {OverviewInfo} from '../components/OverviewInfo';
 import {
+  AMERICAN_PINK,
   HOLE_IN_ONE,
   STONEWALL_GREY,
   WEBSITE_URL,
@@ -20,10 +21,25 @@ import {
 
 interface CurrencyDetailProps {
   navigation: any;
+  route: any;
 }
 
-const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({navigation}) => {
-  const name = 'Bitcoin'; // it will come from props
+const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
+  navigation,
+  route,
+}) => {
+  const {
+    name,
+    symbol,
+    image,
+    current_price,
+    price_change_percentage_24h,
+    low_24h,
+    high_24h,
+    total_volume,
+    market_cap,
+    circulating_supply,
+  } = route.params;
 
   return (
     <View style={styles.container}>
@@ -37,11 +53,11 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({navigation}) => {
           </TouchableOpacity>
           <Image
             source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/183px-Bitcoin.svg.png',
+              uri: image,
             }}
             style={styles.crypto_image}
           />
-          <Text style={styles.name}>Bitcoin</Text>
+          <Text style={styles.name}>{name}</Text>
         </View>
         <Image
           source={require('../assets/images/search_icon.png')}
@@ -50,25 +66,36 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({navigation}) => {
       </View>
       <View style={styles.middle_container}>
         <View style={styles.price_container}>
-          <Text style={styles.price_text}>€ 41,545.34</Text>
-          <View style={styles.percentage_container}>
+          <Text style={styles.price_text}>€ {current_price}</Text>
+          <View
+            style={[
+              styles.percentage_container,
+              {
+                backgroundColor:
+                  price_change_percentage_24h < 0 ? AMERICAN_PINK : HOLE_IN_ONE,
+              },
+            ]}>
             <Image
               source={
-                1 < 0
+                price_change_percentage_24h < 0
                   ? require('../assets/images/down_arrow.png')
                   : require('../assets/images/up_arrow.png')
               }
               style={styles.up_down_arrow}
             />
-            <Text style={styles.percentage_text}>0.50%</Text>
+            <Text style={styles.percentage_text}>
+              {price_change_percentage_24h.toFixed(2)}%
+            </Text>
           </View>
         </View>
         <View style={styles.last_24_hours_container}>
           <Text style={styles.low_and_high_in_24_hours}>
-            24h Low € 40,324.17
+            <Text>24h Low </Text>
+            <Text style={{fontWeight: 'bold'}}>€ {low_24h}</Text>
           </Text>
           <Text style={[styles.low_and_high_in_24_hours, {marginLeft: 20}]}>
-            24h High € 42,718.21
+            <Text>24h High </Text>
+            <Text style={{fontWeight: 'bold'}}>€ {high_24h}</Text>
           </Text>
         </View>
         <View>
@@ -83,11 +110,14 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({navigation}) => {
         />
         <Text style={styles.overview_title}>Overview</Text>
         <View style={styles.overview_container}>
-          <OverviewInfo title="Volume (1d):" value="10,339,011,182" />
-          <OverviewInfo title="Market cap:" value="69,744,708,490" />
+          <OverviewInfo title="Volume (1d):" value={`€${total_volume}`} />
+          <OverviewInfo title="Market cap:" value={`€${market_cap}`} />
         </View>
         <View style={styles.overview_container}>
-          <OverviewInfo title="Market cap:" value="69,744,708,490" />
+          <OverviewInfo
+            title="Circulating supply:"
+            value={`${circulating_supply} ${symbol.toUpperCase()}`}
+          />
         </View>
       </View>
       <View style={styles.account_button_container}>
