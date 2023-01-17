@@ -31,6 +31,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   const [sortName, setSortName] = useState(false);
   const [sortPrice, setSortPrice] = useState(false);
   const {currencies} = reducer;
+  const [currenciesAll, setCurrenciesAll] = useState(currencies);
 
   const getCurrencies = async () => {
     onGetCurrencies(VS_CURRENCY);
@@ -66,36 +67,42 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
 
   useEffect(() => {
     getCurrencies();
-  });
+  }, [currencies]);
 
   //getCurrencies();
 
   const sortByName = () => {
+    const sorted = currencies;
+
     if (sortName) {
-      currencies.sort((a, b) => {
+      sorted.sort((a, b) => {
         return b.name.localeCompare(a.name);
       });
-      setSortName(false);
+      setSortName(!sortName);
     } else {
-      currencies.sort((a, b) => {
+      sorted.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
-      setSortName(true);
+      setSortName(!sortName);
     }
+    setCurrenciesAll(sorted);
   };
 
   const sortByPrice = () => {
+    const sorted = currencies;
+
     if (sortPrice) {
-      currencies.sort((a, b) => {
+      sorted.sort((a, b) => {
         return b.price_change_percentage_24h - a.price_change_percentage_24h;
       });
-      setSortPrice(false);
+      setSortPrice(!sortPrice);
     } else {
-      currencies.sort((a, b) => {
+      sorted.sort((a, b) => {
         return a.price_change_percentage_24h - b.price_change_percentage_24h;
       });
-      setSortPrice(true);
+      setSortPrice(!sortPrice);
     }
+    setCurrenciesAll(sorted);
   };
 
   return (
@@ -126,7 +133,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
       <View style={styles.middle_container}>
         <FlatList
           style={styles.list_style}
-          data={currencies}
+          data={currenciesAll}
           initialNumToRender={10}
           keyExtractor={item => item.market_cap}
           renderItem={({item}) => (

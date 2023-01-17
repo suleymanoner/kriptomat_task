@@ -60,9 +60,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 25,
+    borderBottomColor: 'rgba(0, 0, 0, 0.05)',
+    borderBottomWidth: 1,
   },
   top_container: {
     flexDirection: 'row',
+    marginBottom: 15,
   },
   name_container: {
     marginLeft: 10,
@@ -70,6 +73,7 @@ const styles = StyleSheet.create({
   price_container: {
     marginRight: 20,
     alignItems: 'flex-end',
+    marginBottom: 15,
   },
   inside_price_container: {
     flexDirection: 'row',
