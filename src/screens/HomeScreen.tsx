@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,8 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   onGetCurrencies,
   reducer,
 }) => {
+  const [sortName, setSortName] = useState(false);
+  const [sortPrice, setSortPrice] = useState(false);
   const {currencies} = reducer;
 
   const getCurrencies = async () => {
@@ -66,6 +68,34 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
 
   //getCurrencies();
 
+  const sortByName = () => {
+    if (sortName) {
+      currencies.sort((a, b) => {
+        return b.name.localeCompare(a.name);
+      });
+      setSortName(false);
+    } else {
+      currencies.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+      setSortName(true);
+    }
+  };
+
+  const sortByPrice = () => {
+    if (sortPrice) {
+      currencies.sort((a, b) => {
+        return b.price_change_percentage_24h - a.price_change_percentage_24h;
+      });
+      setSortPrice(false);
+    } else {
+      currencies.sort((a, b) => {
+        return a.price_change_percentage_24h - b.price_change_percentage_24h;
+      });
+      setSortPrice(true);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.top_container}>
@@ -76,14 +106,14 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
       </View>
 
       <View style={styles.search_bar_container}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity onPress={() => sortByName()}>
           <Image
             source={require('../assets/images/cointext_with_arrows.png')}
             style={styles.coin_and_price_text}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity onPress={() => sortByPrice()}>
           <Image
             source={require('../assets/images/pricetext_with_arrows.png')}
             style={styles.coin_and_price_text}
@@ -96,7 +126,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           style={styles.list_style}
           data={currencies}
           initialNumToRender={15}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.market_cap}
           renderItem={({item}) => (
             <CryptoCard
               name={item.name}
