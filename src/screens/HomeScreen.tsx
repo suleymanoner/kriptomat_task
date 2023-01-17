@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import {connect} from 'react-redux';
 import CryptoCard from '../components/CryptoCard';
 import {STONEWALL_GREY, VS_CURRENCY, WEBSITE_URL, WHITE} from '../utils/Config';
 import {ButtonWithText} from '../components/ButtonWithText';
+import SearchBar from '../components/SearchBar';
 
 interface HomeScreenProps {
   navigation: any;
@@ -32,6 +33,8 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   const [sortPrice, setSortPrice] = useState(false);
   const {currencies} = reducer;
   const [currenciesAll, setCurrenciesAll] = useState(currencies);
+  const [txt, setTxt] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   const getCurrencies = async () => {
     onGetCurrencies(VS_CURRENCY);
@@ -68,8 +71,6 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   useEffect(() => {
     getCurrencies();
   }, [currencies]);
-
-  //getCurrencies();
 
   const sortByName = () => {
     const sorted = currencies;
@@ -115,25 +116,48 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
       </View>
 
       <View style={styles.search_bar_container}>
-        <TouchableOpacity onPress={() => sortByName()}>
-          <Image
-            source={require('../assets/images/cointext_with_arrows.png')}
-            style={styles.coin_and_price_text}
+        <View style={{marginBottom: 15}}>
+          <SearchBar
+            placeholder="Search"
+            onChangeText={text => setTxt(text)}
+            onTapClose={() => setTxt('')}
+            onTouchStart={() => setIsEditing(true)}
           />
-        </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity onPress={() => sortByName()}>
+            <Image
+              source={require('../assets/images/cointext_with_arrows.png')}
+              style={styles.coin_and_price_text}
+            />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => sortByPrice()}>
-          <Image
-            source={require('../assets/images/pricetext_with_arrows.png')}
-            style={styles.coin_and_price_text}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => sortByPrice()}>
+            <Image
+              source={require('../assets/images/pricetext_with_arrows.png')}
+              style={styles.coin_and_price_text}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.middle_container}>
         <FlatList
           style={styles.list_style}
-          data={currenciesAll}
+          data={
+            isEditing
+              ? Object.values(currenciesAll).filter(item => {
+                  return (
+                    item.name
+                      .toLocaleLowerCase()
+                      .includes(txt.toLocaleLowerCase()) ||
+                    item.symbol
+                      .toLocaleLowerCase()
+                      .includes(txt.toLocaleLowerCase())
+                  );
+                })
+              : currenciesAll
+          }
           initialNumToRender={10}
           keyExtractor={item => item.market_cap}
           renderItem={({item}) => (
@@ -180,12 +204,10 @@ const styles = StyleSheet.create({
   },
   top_container: {
     flexDirection: 'row',
-    marginTop: 10,
     alignSelf: 'center',
   },
   search_bar_container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   middle_container: {
     flex: 1,
