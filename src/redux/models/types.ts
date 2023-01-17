@@ -35,4 +35,16 @@ export interface Roi {
 
 export interface CryptoState {
   currencies: [CryptoCoin];
+  chartVariables: ChartValues;
+}
+
+export interface ChartValues {
+  prices: [ChartVariables];
+  market_caps: [ChartVariables];
+  total_volumes: [ChartVariables];
+}
+
+export interface ChartVariables {
+  date: number;
+  price: number;
 }
