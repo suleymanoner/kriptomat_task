@@ -8,12 +8,18 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
+import {onGetChartValues} from '../redux/actions/Actions';
+import {ApplicationState} from '../redux/store';
+import {CryptoState} from '../redux/models/types';
+import {connect} from 'react-redux';
 import {ButtonWithText} from '../components/ButtonWithText';
+import ChartCard from '../components/ChartCard';
 import {OverviewInfo} from '../components/OverviewInfo';
 import {
   AMERICAN_PINK,
   HOLE_IN_ONE,
   STONEWALL_GREY,
+  VS_CURRENCY,
   WEBSITE_URL,
   WHITE,
   WILD_IRIS,
@@ -22,13 +28,18 @@ import {
 interface CurrencyDetailProps {
   navigation: any;
   route: any;
+  reducer: CryptoState;
+  onGetChartValues: Function;
 }
 
-const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
+const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
   navigation,
   route,
+  reducer,
+  onGetChartValues,
 }) => {
   const {
+    id,
     name,
     symbol,
     image,
@@ -40,6 +51,10 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
     market_cap,
     circulating_supply,
   } = route.params;
+
+  const {chartVariables} = reducer;
+
+  //onGetChartValues(id, VS_CURRENCY, 1392577232, 1422577232);
 
   return (
     <View style={styles.container}>
@@ -74,7 +89,9 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
               styles.percentage_container,
               {
                 backgroundColor:
-                  price_change_percentage_24h < 0 ? AMERICAN_PINK : HOLE_IN_ONE,
+                  price_change_percentage_24h < 0
+                    ? 'rgba(255, 150, 150, 0.2)'
+                    : 'rgba(76, 178, 148, 0.2)',
               },
             ]}>
             <Image
@@ -85,7 +102,16 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
               }
               style={styles.up_down_arrow}
             />
-            <Text style={styles.percentage_text}>
+            <Text
+              style={[
+                styles.percentage_text,
+                {
+                  color:
+                    price_change_percentage_24h < 0
+                      ? AMERICAN_PINK
+                      : HOLE_IN_ONE,
+                },
+              ]}>
               {price_change_percentage_24h.toFixed(2)}%
             </Text>
           </View>
@@ -104,10 +130,8 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
             </Text>
           </Text>
         </View>
-        <View>
-          <Text style={{fontSize: 30, textAlign: 'center'}}>
-            Graph will be here.
-          </Text>
+        <View style={{marginTop: 10}}>
+          <ChartCard data2={chartVariables.prices} />
         </View>
 
         <ButtonWithText
@@ -172,8 +196,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     height: 35,
     width: 100,
-    backgroundColor: HOLE_IN_ONE,
-    opacity: 0.2,
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -226,7 +248,6 @@ const styles = StyleSheet.create({
   percentage_text: {
     // TODO: make text visible on the transparent background
     fontSize: 20,
-    color: HOLE_IN_ONE,
     alignSelf: 'center',
     fontFamily: 'Montserrat-Regular',
     fontWeight: '500',
@@ -251,5 +272,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
   },
 });
+
+const mapToStateProps = (state: ApplicationState) => ({
+  reducer: state.reducer,
+});
+
+const CurrencyDetailScreen = connect(mapToStateProps, {
+  onGetChartValues,
+})(_CurrencyDetailScreen);
 
 export {CurrencyDetailScreen};

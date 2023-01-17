@@ -11,4 +11,3 @@ export const WATER_BLUE = '#0E80D5';
 export const STONEWALL_GREY = '#C2C2C2';
 export const HOLE_IN_ONE = '#4CB294';
 export const MISCHKA = '#A2A6AE';
-// add Montserrat font type

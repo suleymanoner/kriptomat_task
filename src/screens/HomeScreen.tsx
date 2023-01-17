@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import {onGetCurrencies} from '../redux/actions/Actions';
 import {ApplicationState} from '../redux/store';
-import {CryptoState} from '../redux/models/types';
+import {CryptoState, CryptoCoin} from '../redux/models/types';
 import {connect} from 'react-redux';
 import CryptoCard from '../components/CryptoCard';
 import {STONEWALL_GREY, VS_CURRENCY, WEBSITE_URL, WHITE} from '../utils/Config';
 import {ButtonWithText} from '../components/ButtonWithText';
+
 interface HomeScreenProps {
   navigation: any;
   reducer: CryptoState;
@@ -36,6 +37,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   };
 
   const goDetails = (
+    id: string,
     name: string,
     symbol: string,
     image: string,
@@ -48,6 +50,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
     circulating_supply: number,
   ) => {
     navigation.navigate('CurrencyDetailScreen', {
+      id,
       name,
       symbol,
       image,
@@ -61,10 +64,9 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
     });
   };
 
-  /*
   useEffect(() => {
     getCurrencies();
-  }, [currencies]); */
+  });
 
   //getCurrencies();
 
@@ -125,7 +127,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
         <FlatList
           style={styles.list_style}
           data={currencies}
-          initialNumToRender={15}
+          initialNumToRender={10}
           keyExtractor={item => item.market_cap}
           renderItem={({item}) => (
             <CryptoCard
@@ -136,6 +138,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
               change_in_day={item.price_change_percentage_24h.toFixed(2)}
               onTap={() =>
                 goDetails(
+                  item.id,
                   item.name,
                   item.symbol,
                   item.image,
