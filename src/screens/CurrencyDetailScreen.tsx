@@ -15,9 +15,13 @@ import {connect} from 'react-redux';
 import {ButtonWithText} from '../components/ButtonWithText';
 import ChartCard from '../components/ChartCard';
 import {OverviewInfo} from '../components/OverviewInfo';
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+
 import {
   AMERICAN_PINK,
   HOLE_IN_ONE,
+  MEGA_TEAL,
   STONEWALL_GREY,
   VS_CURRENCY,
   WEBSITE_URL,
@@ -50,7 +54,7 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
     total_volume,
     market_cap,
     circulating_supply,
-  } = route.params;
+  } = route?.params;
 
   const {chartVariables} = reducer;
 
@@ -60,11 +64,10 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
     <View style={styles.container}>
       <View style={styles.top_container}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
-            <Image
-              source={require('../assets/images/back_arrow.png')}
-              style={styles.back_arrow}
-            />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('HomeScreen')}
+            style={{marginLeft: 10}}>
+            <IoniconsIcon name="arrow-back" color={WILD_IRIS} size={35} />
           </TouchableOpacity>
           <Image
             source={{
@@ -74,10 +77,11 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
           />
           <Text style={styles.name}>{name}</Text>
         </View>
-        <Image
-          source={require('../assets/images/search_icon.png')}
-          style={styles.search_icon}
-        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('SearchScreen')}
+          style={{marginRight: 10}}>
+          <IoniconsIcon name="search" color={WILD_IRIS} size={30} />
+        </TouchableOpacity>
       </View>
       <View style={styles.middle_container}>
         <View style={styles.price_container}>
@@ -94,14 +98,19 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
                     : 'rgba(76, 178, 148, 0.2)',
               },
             ]}>
-            <Image
-              source={
-                price_change_percentage_24h < 0
-                  ? require('../assets/images/down_arrow.png')
-                  : require('../assets/images/up_arrow.png')
-              }
-              style={styles.up_down_arrow}
-            />
+            {price_change_percentage_24h < 0 ? (
+              <View style={{alignSelf: 'center'}}>
+                <EntypoIcon
+                  name="triangle-down"
+                  color={AMERICAN_PINK}
+                  size={23}
+                />
+              </View>
+            ) : (
+              <View style={{alignSelf: 'center'}}>
+                <EntypoIcon name="triangle-up" color={MEGA_TEAL} size={23} />
+              </View>
+            )}
             <Text
               style={[
                 styles.percentage_text,
@@ -223,7 +232,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: 'center',
-    marginLeft: 20,
+    marginLeft: 10,
     alignSelf: 'center',
   },
   name: {

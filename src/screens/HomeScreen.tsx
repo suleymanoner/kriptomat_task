@@ -14,9 +14,16 @@ import {ApplicationState} from '../redux/store';
 import {CryptoState, CryptoCoin} from '../redux/models/types';
 import {connect} from 'react-redux';
 import CryptoCard from '../components/CryptoCard';
-import {STONEWALL_GREY, VS_CURRENCY, WEBSITE_URL, WHITE} from '../utils/Config';
+import {
+  DULL,
+  STONEWALL_GREY,
+  VS_CURRENCY,
+  WEBSITE_URL,
+  WHITE,
+} from '../utils/Config';
 import {ButtonWithText} from '../components/ButtonWithText';
 import SearchBar from '../components/SearchBar';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface HomeScreenProps {
   navigation: any;
@@ -124,19 +131,22 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
             onTouchStart={() => setIsEditing(true)}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TouchableOpacity onPress={() => sortByName()}>
-            <Image
-              source={require('../assets/images/cointext_with_arrows.png')}
-              style={styles.coin_and_price_text}
-            />
+        <View style={styles.coin_and_price_container}>
+          <TouchableOpacity
+            style={{flexDirection: 'row', marginLeft: 5}}
+            onPress={() => sortByName()}>
+            <Text style={styles.coin_and_price_text}>Coin</Text>
+            <View style={{alignSelf: 'center', marginLeft: 5}}>
+              <Icon name="sort" color={DULL} size={15} />
+            </View>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => sortByPrice()}>
-            <Image
-              source={require('../assets/images/pricetext_with_arrows.png')}
-              style={styles.coin_and_price_text}
-            />
+          <TouchableOpacity
+            style={{flexDirection: 'row', marginRight: 15}}
+            onPress={() => sortByPrice()}>
+            <Text style={styles.coin_and_price_text}>Price</Text>
+            <View style={{alignSelf: 'center', marginLeft: 5}}>
+              <Icon name="sort" color={DULL} size={15} />
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -218,16 +228,19 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width / 1.15,
     alignSelf: 'center',
   },
+  coin_and_price_container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   image: {
     width: Dimensions.get('window').width / 2.5,
     resizeMode: 'center',
   },
   coin_and_price_text: {
-    width: 60,
-    height: 30,
-    resizeMode: 'center',
+    fontSize: 15,
     marginLeft: 15,
-    marginRight: 15,
+    fontFamily: 'Montserrat-Regular',
+    alignSelf: 'center',
   },
   list_style: {
     marginTop: 10,

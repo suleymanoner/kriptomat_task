@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {AMERICAN_PINK, DULL, MEGA_TEAL, WILD_IRIS} from '../utils/Config';
+import Icon from 'react-native-vector-icons/Entypo';
 
 interface CryptoCardProps {
   name: string;
@@ -33,14 +34,15 @@ const CryptoCard: React.FC<CryptoCardProps> = ({
           €{current_price.toLocaleString()}
         </Text>
         <View style={styles.inside_price_container}>
-          <Image
-            source={
-              change_in_day < 0
-                ? require('../assets/images/down_arrow.png')
-                : require('../assets/images/up_arrow.png')
-            }
-            style={styles.up_down_arrow}
-          />
+          {change_in_day < 0 ? (
+            <View style={{alignSelf: 'center'}}>
+              <Icon name="triangle-down" color={AMERICAN_PINK} size={23} />
+            </View>
+          ) : (
+            <View style={{alignSelf: 'center'}}>
+              <Icon name="triangle-up" color={MEGA_TEAL} size={23} />
+            </View>
+          )}
           <Text
             style={
               change_in_day < 0
