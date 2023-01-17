@@ -66,7 +66,9 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
       </View>
       <View style={styles.middle_container}>
         <View style={styles.price_container}>
-          <Text style={styles.price_text}>€ {current_price}</Text>
+          <Text style={styles.price_text}>
+            € {current_price.toLocaleString()}
+          </Text>
           <View
             style={[
               styles.percentage_container,
@@ -91,11 +93,15 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
         <View style={styles.last_24_hours_container}>
           <Text style={styles.low_and_high_in_24_hours}>
             <Text>24h Low </Text>
-            <Text style={{fontWeight: 'bold'}}>€ {low_24h}</Text>
+            <Text style={{fontWeight: 'bold'}}>
+              € {low_24h.toLocaleString()}
+            </Text>
           </Text>
           <Text style={[styles.low_and_high_in_24_hours, {marginLeft: 20}]}>
             <Text>24h High </Text>
-            <Text style={{fontWeight: 'bold'}}>€ {high_24h}</Text>
+            <Text style={{fontWeight: 'bold'}}>
+              € {high_24h.toLocaleString()}
+            </Text>
           </Text>
         </View>
         <View>
@@ -110,13 +116,19 @@ const CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
         />
         <Text style={styles.overview_title}>Overview</Text>
         <View style={styles.overview_container}>
-          <OverviewInfo title="Volume (1d):" value={`€${total_volume}`} />
-          <OverviewInfo title="Market cap:" value={`€${market_cap}`} />
+          <OverviewInfo
+            title="Volume (1d):"
+            value={`€${total_volume.toLocaleString()}`}
+          />
+          <OverviewInfo
+            title="Market cap:"
+            value={`€${market_cap.toLocaleString()}`}
+          />
         </View>
         <View style={styles.overview_container}>
           <OverviewInfo
             title="Circulating supply:"
-            value={`${circulating_supply} ${symbol.toUpperCase()}`}
+            value={`${circulating_supply.toLocaleString()} ${symbol.toUpperCase()}`}
           />
         </View>
       </View>
@@ -196,6 +208,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginLeft: 10,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '600',
   },
   search_icon: {
     width: 30,
@@ -206,12 +220,16 @@ const styles = StyleSheet.create({
   price_text: {
     fontSize: 30,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '600',
   },
   percentage_text: {
     // TODO: make text visible on the transparent background
     fontSize: 20,
     color: HOLE_IN_ONE,
     alignSelf: 'center',
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500',
   },
   up_down_arrow: {
     width: 15,
@@ -222,12 +240,15 @@ const styles = StyleSheet.create({
   low_and_high_in_24_hours: {
     fontSize: 16,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '600',
   },
   overview_title: {
     fontSize: 25,
     color: WILD_IRIS,
     marginTop: 25,
     fontWeight: '600',
+    fontFamily: 'Montserrat-Regular',
   },
 });
 

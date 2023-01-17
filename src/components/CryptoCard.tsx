@@ -25,11 +25,13 @@ const CryptoCard: React.FC<CryptoCardProps> = ({
         <Image source={{uri: image}} style={styles.image} />
         <View style={styles.name_container}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.symbol}>{symbol}</Text>
+          <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
         </View>
       </View>
       <View style={styles.price_container}>
-        <Text style={styles.current_price}>€{current_price}</Text>
+        <Text style={styles.current_price}>
+          €{current_price.toLocaleString()}
+        </Text>
         <View style={styles.inside_price_container}>
           <Image
             source={
@@ -82,18 +84,26 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 17,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500', // it doesn't look like boldier than the symbol in the android.
   },
   symbol: {
     fontSize: 17,
     color: DULL,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '300',
   },
   current_price: {
     fontSize: 17,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500',
   },
   change_in_day: {
     fontSize: 17,
     color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500',
   },
   up_down_arrow: {
     width: 10,

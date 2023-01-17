@@ -23,12 +23,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     color: MISCHKA,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '400',
   },
   value: {
     fontSize: 17,
     color: WILD_IRIS,
     marginTop: 10,
-    fontWeight: '700', // 600 seems to thin, so I changed it to the 700.
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '600',
   },
 });
 

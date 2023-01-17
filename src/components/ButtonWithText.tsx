@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   button_text: {
     fontSize: 17,
     color: WHITE,
-    fontWeight: '700', // 600 seems to thin, so I changed it to the 700.
+    fontWeight: '600', // it doesn't look like bold in android.
+    fontFamily: 'Montserrat-Regular',
   },
 });
 
