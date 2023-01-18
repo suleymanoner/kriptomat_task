@@ -24,7 +24,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => (
   <View style={styles.container}>
     <View style={styles.search_container}>
-      <View style={{alignSelf: 'center', marginLeft: 10}}>
+      <View style={styles.search_icon}>
         <Icon name="magnify" color="#95989A" size={25} />
       </View>
       <TextInput
@@ -35,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         style={styles.search_bar_input}
       />
     </View>
-    <TouchableOpacity onPress={() => onTapClose()} style={{marginRight: 5}}>
+    <TouchableOpacity onPress={() => onTapClose()} style={styles.close_icon}>
       <Icon name="close" color="#95989A" size={25} />
     </TouchableOpacity>
   </View>
@@ -59,6 +59,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Montserrat-Regular',
     width: Dimensions.get('window').width / 1.5,
+  },
+  search_icon: {
+    alignSelf: 'center',
+    marginLeft: 10,
+  },
+  close_icon: {
+    marginRight: 5,
   },
 });
 

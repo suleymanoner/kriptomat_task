@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 import {HomeScreen} from './src/screens/HomeScreen';
 import {CurrencyDetailScreen} from './src/screens/CurrencyDetailScreen';
+import {SearchScreen} from './src/screens/SearchScreen';
 
 const RootStack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const App = () => {
             name="CurrencyDetailScreen"
             component={CurrencyDetailScreen}
           />
+          <RootStack.Screen name="SearchScreen" component={SearchScreen} />
         </RootStack.Navigator>
         <StatusBar backgroundColor="#085FAD" translucent={true} />
       </NavigationContainer>

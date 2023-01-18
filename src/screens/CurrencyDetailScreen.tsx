@@ -23,7 +23,8 @@ import {
   HOLE_IN_ONE,
   MEGA_TEAL,
   STONEWALL_GREY,
-  VS_CURRENCY,
+  TRANSPARENT_AMERICAN_PINK,
+  TRANSPARENT_MEGA_TEAL,
   WEBSITE_URL,
   WHITE,
   WILD_IRIS,
@@ -63,10 +64,10 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.top_container}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={styles.back_image_container}>
           <TouchableOpacity
             onPress={() => navigation.navigate('HomeScreen')}
-            style={{marginLeft: 10}}>
+            style={styles.back_arrow}>
             <IoniconsIcon name="arrow-back" color={WILD_IRIS} size={35} />
           </TouchableOpacity>
           <Image
@@ -79,7 +80,7 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('SearchScreen')}
-          style={{marginRight: 10}}>
+          style={styles.search_icon}>
           <IoniconsIcon name="search" color={WILD_IRIS} size={30} />
         </TouchableOpacity>
       </View>
@@ -94,12 +95,12 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
               {
                 backgroundColor:
                   price_change_percentage_24h < 0
-                    ? 'rgba(255, 150, 150, 0.2)'
-                    : 'rgba(76, 178, 148, 0.2)',
+                    ? TRANSPARENT_AMERICAN_PINK
+                    : TRANSPARENT_MEGA_TEAL,
               },
             ]}>
             {price_change_percentage_24h < 0 ? (
-              <View style={{alignSelf: 'center'}}>
+              <View style={styles.up_down_icon}>
                 <EntypoIcon
                   name="triangle-down"
                   color={AMERICAN_PINK}
@@ -107,7 +108,7 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
                 />
               </View>
             ) : (
-              <View style={{alignSelf: 'center'}}>
+              <View style={styles.up_down_icon}>
                 <EntypoIcon name="triangle-up" color={MEGA_TEAL} size={23} />
               </View>
             )}
@@ -128,17 +129,18 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
         <View style={styles.last_24_hours_container}>
           <Text style={styles.low_and_high_in_24_hours}>
             <Text>24h Low </Text>
-            <Text style={{fontWeight: 'bold'}}>
+            <Text style={styles.low_and_high_bold}>
               € {low_24h.toLocaleString()}
             </Text>
           </Text>
           <Text style={[styles.low_and_high_in_24_hours, {marginLeft: 20}]}>
             <Text>24h High </Text>
-            <Text style={{fontWeight: 'bold'}}>
+            <Text style={styles.low_and_high_bold}>
               € {high_24h.toLocaleString()}
             </Text>
           </Text>
         </View>
+
         <View style={{marginTop: 10}}>
           <ChartCard data2={chartVariables.prices} />
         </View>
@@ -185,6 +187,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     justifyContent: 'space-between',
   },
+  back_image_container: {
+    flexDirection: 'row',
+  },
   middle_container: {
     flex: 1,
     flexDirection: 'column',
@@ -223,9 +228,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   back_arrow: {
-    width: 30,
-    height: 30,
-    resizeMode: 'center',
     marginLeft: 10,
   },
   crypto_image: {
@@ -242,12 +244,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     fontWeight: '600',
   },
-  search_icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'center',
-    marginRight: 10,
-  },
+
   price_text: {
     fontSize: 30,
     color: WILD_IRIS,
@@ -255,17 +252,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   percentage_text: {
-    // TODO: make text visible on the transparent background
     fontSize: 20,
     alignSelf: 'center',
     fontFamily: 'Montserrat-Regular',
     fontWeight: '500',
   },
-  up_down_arrow: {
-    width: 15,
-    height: 15,
+  up_down_icon: {
     alignSelf: 'center',
-    marginRight: 5,
   },
   low_and_high_in_24_hours: {
     fontSize: 16,
@@ -273,12 +266,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     fontWeight: '600',
   },
+  low_and_high_bold: {
+    fontWeight: 'bold',
+  },
   overview_title: {
     fontSize: 25,
     color: WILD_IRIS,
     marginTop: 25,
     fontWeight: '600',
     fontFamily: 'Montserrat-Regular',
+  },
+  search_icon: {
+    marginRight: 10,
   },
 });
 

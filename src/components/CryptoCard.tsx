@@ -35,11 +35,11 @@ const CryptoCard: React.FC<CryptoCardProps> = ({
         </Text>
         <View style={styles.inside_price_container}>
           {change_in_day < 0 ? (
-            <View style={{alignSelf: 'center'}}>
+            <View style={styles.up_down_arrow}>
               <Icon name="triangle-down" color={AMERICAN_PINK} size={23} />
             </View>
           ) : (
-            <View style={{alignSelf: 'center'}}>
+            <View style={styles.up_down_arrow}>
               <Icon name="triangle-up" color={MEGA_TEAL} size={23} />
             </View>
           )}
@@ -112,10 +112,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   up_down_arrow: {
-    width: 10,
-    height: 10,
     alignSelf: 'center',
-    marginRight: 3,
   },
 });
 

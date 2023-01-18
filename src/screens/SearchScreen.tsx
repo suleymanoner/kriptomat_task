@@ -1,51 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
-  Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
+  Text,
   Dimensions,
-  FlatList,
   Linking,
+  FlatList,
 } from 'react-native';
-import {onGetCurrencies} from '../redux/actions/Actions';
 import {ApplicationState} from '../redux/store';
 import {CryptoState} from '../redux/models/types';
 import {connect} from 'react-redux';
-import CryptoCard from '../components/CryptoCard';
-import {
-  DULL,
-  STONEWALL_GREY,
-  VS_CURRENCY,
-  WEBSITE_URL,
-  WHITE,
-} from '../utils/Config';
 import {ButtonWithText} from '../components/ButtonWithText';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {STONEWALL_GREY, WEBSITE_URL, WHITE, WILD_IRIS} from '../utils/Config';
 import SearchBar from '../components/SearchBar';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import CryptoCard from '../components/CryptoCard';
 
-interface HomeScreenProps {
+interface CurrencyDetailProps {
   navigation: any;
   reducer: CryptoState;
-  onGetCurrencies: Function;
 }
 
-const _HomeScreen: React.FC<HomeScreenProps> = ({
+const _SearchScreen: React.FC<CurrencyDetailProps> = ({
   navigation,
-  onGetCurrencies,
   reducer,
 }) => {
-  const [sortName, setSortName] = useState(false);
-  const [sortPrice, setSortPrice] = useState(false);
   const {currencies} = reducer;
-  const [currenciesAll, setCurrenciesAll] = useState(currencies);
   const [txt, setTxt] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-
-  const getCurrencies = async () => {
-    onGetCurrencies(VS_CURRENCY);
-  };
 
   const goDetails = (
     id: string,
@@ -75,55 +58,18 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
     });
   };
 
-  useEffect(() => {
-    getCurrencies();
-  }, [currencies]);
-
-  const sortByName = () => {
-    const sorted = currencies;
-
-    if (sortName) {
-      sorted.sort((a, b) => {
-        return b.name.localeCompare(a.name);
-      });
-      setSortName(!sortName);
-    } else {
-      sorted.sort((a, b) => {
-        return a.name.localeCompare(b.name);
-      });
-      setSortName(!sortName);
-    }
-    setCurrenciesAll(sorted);
-  };
-
-  const sortByPrice = () => {
-    const sorted = currencies;
-
-    if (sortPrice) {
-      sorted.sort((a, b) => {
-        return b.price_change_percentage_24h - a.price_change_percentage_24h;
-      });
-      setSortPrice(!sortPrice);
-    } else {
-      sorted.sort((a, b) => {
-        return a.price_change_percentage_24h - b.price_change_percentage_24h;
-      });
-      setSortPrice(!sortPrice);
-    }
-    setCurrenciesAll(sorted);
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.top_container}>
-        <Image
-          source={require('../assets/images/kriptomat_logo.png')}
-          style={styles.image}
-        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeScreen')}
+          style={styles.back_arrow}>
+          <Icon name="arrow-back" color={WILD_IRIS} size={35} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Search</Text>
       </View>
-
       <View style={styles.search_bar_container}>
-        <View style={styles.search_component}>
+        <View style={{marginBottom: 15}}>
           <SearchBar
             placeholder="Search"
             onChangeText={text => setTxt(text)}
@@ -132,31 +78,16 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           />
         </View>
         <View style={styles.coin_and_price_container}>
-          <TouchableOpacity
-            style={styles.coin_and_price_button}
-            onPress={() => sortByName()}>
-            <Text style={styles.coin_and_price_text}>Coin</Text>
-            <View style={styles.sort_icon}>
-              <Icon name="sort" color={DULL} size={15} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.coin_and_price_button, {marginRight: 17}]}
-            onPress={() => sortByPrice()}>
-            <Text style={styles.coin_and_price_text}>Price</Text>
-            <View style={styles.sort_icon}>
-              <Icon name="sort" color={DULL} size={15} />
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.coin_and_price_text}>Coin</Text>
+          <Text style={styles.coin_and_price_text}>Price</Text>
         </View>
       </View>
-
       <View style={styles.middle_container}>
         <FlatList
           style={styles.list_style}
           data={
             isEditing
-              ? Object.values(currenciesAll).filter(item => {
+              ? Object.values(currencies).filter(item => {
                   return (
                     item.name
                       .toLocaleLowerCase()
@@ -166,7 +97,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
                       .includes(txt.toLocaleLowerCase())
                   );
                 })
-              : currenciesAll
+              : currencies
           }
           initialNumToRender={10}
           keyExtractor={item => item.market_cap}
@@ -196,8 +127,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           )}
         />
       </View>
-
-      <View style={styles.button_container}>
+      <View style={styles.account_button_container}>
         <ButtonWithText
           title="Kriptomat account"
           onTap={() => Linking.openURL(WEBSITE_URL)}
@@ -214,47 +144,53 @@ const styles = StyleSheet.create({
   },
   top_container: {
     flexDirection: 'row',
-    alignSelf: 'center',
-  },
-  search_bar_container: {
-    flexDirection: 'column',
+    marginTop: 50,
+    justifyContent: 'center',
   },
   middle_container: {
     flex: 1,
+    flexDirection: 'column',
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
   },
-  button_container: {
+  search_bar_container: {
+    flexDirection: 'column',
+    marginTop: 10,
+  },
+  coin_and_price_container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  account_button_container: {
     borderTopColor: STONEWALL_GREY,
     borderTopWidth: 1,
     width: Dimensions.get('screen').width / 1.15,
     alignSelf: 'center',
   },
-  coin_and_price_container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  image: {
-    width: Dimensions.get('window').width / 2.5,
-    resizeMode: 'center',
-  },
-  coin_and_price_text: {
-    fontSize: 15,
-    marginLeft: 15,
-    fontFamily: 'Montserrat-Regular',
-    alignSelf: 'center',
-  },
-  coin_and_price_button: {
-    flexDirection: 'row',
+  back_arrow: {
+    position: 'absolute',
+    left: 0,
+    marginLeft: 10,
   },
   list_style: {
     marginTop: 10,
   },
-  search_component: {
-    marginBottom: 15,
+  title: {
+    fontSize: 25,
+    marginLeft: 10,
+    color: WILD_IRIS,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '600',
   },
-  sort_icon: {
+  coin_and_price_text: {
+    fontSize: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    fontFamily: 'Montserrat-Regular',
     alignSelf: 'center',
-    marginLeft: 5,
   },
 });
 
@@ -262,8 +198,6 @@ const mapToStateProps = (state: ApplicationState) => ({
   reducer: state.reducer,
 });
 
-const HomeScreen = connect(mapToStateProps, {
-  onGetCurrencies,
-})(_HomeScreen);
+const SearchScreen = connect(mapToStateProps, {})(_SearchScreen);
 
-export {HomeScreen};
+export {SearchScreen};
