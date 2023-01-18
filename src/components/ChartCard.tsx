@@ -52,86 +52,12 @@ const ChartCard: React.FC<ChartCardProps> = ({data2}) => {
         svg={{stroke: WATER_BLUE}}>
         <Grid svg={{stroke: 'white'}} />
       </AreaChart>
-
-      <View style={styles.button_container}>
-        <TouchableOpacity>
-          <Text style={styles.name}>24h</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.name}>1W</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.name}>1M</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.name}>1Y</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.name}>All</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 25,
-  },
-  button_container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 15,
-    marginRight: 15,
-  },
-  name_container: {
-    marginLeft: 10,
-  },
-  price_container: {
-    marginRight: 20,
-    alignItems: 'flex-end',
-  },
-  inside_price_container: {
-    flexDirection: 'row',
-  },
-  image: {
-    width: 40,
-    height: 40,
-    // borderRadius: 30, check later if needed.
-    marginLeft: 15,
-    alignSelf: 'center',
-  },
-  name: {
-    fontSize: 17,
-    color: WATER_BLUE,
-    fontFamily: 'Montserrat-Regular',
-  },
-  symbol: {
-    fontSize: 17,
-    color: DULL,
-    fontFamily: 'Montserrat-Regular',
-    fontWeight: '300',
-  },
-  current_price: {
-    fontSize: 17,
-    color: WILD_IRIS,
-    fontFamily: 'Montserrat-Regular',
-    fontWeight: '500',
-  },
-  change_in_day: {
-    fontSize: 17,
-    color: WILD_IRIS,
-    fontFamily: 'Montserrat-Regular',
-    fontWeight: '500',
-  },
-  up_down_arrow: {
-    width: 10,
-    height: 10,
-    alignSelf: 'center',
-    marginRight: 3,
-  },
+  container: {},
 });
 
 export default ChartCard;
