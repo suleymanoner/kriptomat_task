@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
-    // borderRadius: 30, check later if needed.
     marginLeft: 15,
     alignSelf: 'center',
   },
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: WILD_IRIS,
     fontFamily: 'Montserrat-Regular',
-    fontWeight: '500', // it doesn't look like boldier than the symbol in the android.
+    fontWeight: '500', // it doesn't look like boldier in the android.
   },
   symbol: {
     fontSize: 17,

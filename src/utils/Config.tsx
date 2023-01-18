@@ -12,4 +12,4 @@ export const STONEWALL_GREY = '#C2C2C2';
 export const HOLE_IN_ONE = '#4CB294';
 export const MISCHKA = '#A2A6AE';
 export const TRANSPARENT_AMERICAN_PINK = 'rgba(255, 150, 150, 0.2)';
-export const TRANSPARENT_MEGA_TEAL = 'rgba(255, 150, 150, 0.2)';
+export const TRANSPARENT_MEGA_TEAL = 'rgba(13, 234, 169, 0.2)';

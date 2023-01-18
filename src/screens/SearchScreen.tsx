@@ -71,6 +71,7 @@ const _SearchScreen: React.FC<CurrencyDetailProps> = ({
       <View style={styles.search_bar_container}>
         <View style={{marginBottom: 15}}>
           <SearchBar
+            value={txt}
             placeholder="Search"
             onChangeText={text => setTxt(text)}
             onTapClose={() => setTxt('')}
@@ -99,7 +100,7 @@ const _SearchScreen: React.FC<CurrencyDetailProps> = ({
                 })
               : currencies
           }
-          initialNumToRender={10}
+          initialNumToRender={5}
           keyExtractor={item => item.market_cap}
           renderItem={({item}) => (
             <CryptoCard

@@ -14,6 +14,7 @@ interface SearchBarProps {
   onChangeText: any;
   onTapClose: Function;
   onTouchStart: any;
+  value: string;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -21,6 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   onChangeText,
   onTapClose,
   onTouchStart,
+  value,
 }) => (
   <View style={styles.container}>
     <View style={styles.search_container}>
@@ -28,6 +30,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <Icon name="magnify" color="#95989A" size={25} />
       </View>
       <TextInput
+        value={value}
         placeholder={placeholder}
         placeholderTextColor={'#95989A'}
         onChangeText={onChangeText}

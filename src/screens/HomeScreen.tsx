@@ -44,7 +44,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   const [isEditing, setIsEditing] = useState(false);
 
   const getCurrencies = async () => {
-    onGetCurrencies(VS_CURRENCY);
+    await onGetCurrencies(VS_CURRENCY);
   };
 
   const goDetails = (
@@ -77,18 +77,22 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
 
   useEffect(() => {
     getCurrencies();
-  }, [currencies]);
+  }, []);
+
+  useEffect(() => {
+    setCurrenciesAll(currencies);
+  }, []);
 
   const sortByName = () => {
-    const sorted = currencies;
+    const sorted = currenciesAll;
 
     if (sortName) {
-      sorted.sort((a, b) => {
+      currencies.sort((a, b) => {
         return b.name.localeCompare(a.name);
       });
       setSortName(!sortName);
     } else {
-      sorted.sort((a, b) => {
+      currencies.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
       setSortName(!sortName);
@@ -97,15 +101,15 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
   };
 
   const sortByPrice = () => {
-    const sorted = currencies;
+    const sorted = currenciesAll;
 
     if (sortPrice) {
-      sorted.sort((a, b) => {
+      currencies.sort((a, b) => {
         return b.price_change_percentage_24h - a.price_change_percentage_24h;
       });
       setSortPrice(!sortPrice);
     } else {
-      sorted.sort((a, b) => {
+      currencies.sort((a, b) => {
         return a.price_change_percentage_24h - b.price_change_percentage_24h;
       });
       setSortPrice(!sortPrice);
@@ -125,6 +129,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
       <View style={styles.search_bar_container}>
         <View style={styles.search_component}>
           <SearchBar
+            value={txt}
             placeholder="Search"
             onChangeText={text => setTxt(text)}
             onTapClose={() => setTxt('')}
@@ -156,7 +161,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
           style={styles.list_style}
           data={
             isEditing
-              ? Object.values(currenciesAll).filter(item => {
+              ? Object.values(currencies).filter(item => {
                   return (
                     item.name
                       .toLocaleLowerCase()
@@ -166,7 +171,7 @@ const _HomeScreen: React.FC<HomeScreenProps> = ({
                       .includes(txt.toLocaleLowerCase())
                   );
                 })
-              : currenciesAll
+              : currencies
           }
           initialNumToRender={10}
           keyExtractor={item => item.market_cap}
