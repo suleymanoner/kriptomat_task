@@ -39,9 +39,9 @@ export interface CryptoState {
 }
 
 export interface ChartValues {
-  prices: [ChartVariables];
-  market_caps: [ChartVariables];
-  total_volumes: [ChartVariables];
+  prices: ChartVariables;
+  market_caps: ChartVariables;
+  total_volumes: ChartVariables;
 }
 
 export interface ChartVariables {

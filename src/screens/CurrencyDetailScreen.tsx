@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -17,6 +17,7 @@ import ChartCard from '../components/ChartCard';
 import {OverviewInfo} from '../components/OverviewInfo';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
+import {getChartValuesByTime} from '../utils/functions';
 
 import {
   AMERICAN_PINK,
@@ -25,10 +26,12 @@ import {
   STONEWALL_GREY,
   TRANSPARENT_AMERICAN_PINK,
   TRANSPARENT_MEGA_TEAL,
+  VS_CURRENCY,
   WEBSITE_URL,
   WHITE,
   WILD_IRIS,
 } from '../utils/Config';
+import ChartButton from '../components/ChartButton';
 
 interface CurrencyDetailProps {
   navigation: any;
@@ -57,9 +60,88 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
     circulating_supply,
   } = route?.params;
 
+  const [twentyFourH, setTwentyFourH] = useState(true);
+  const [oneWeek, setOneWeek] = useState(false);
+  const [oneMonth, setOneMonth] = useState(false);
+  const [oneYear, setOneYear] = useState(false);
+  const [all, setAll] = useState(false);
+
   const {chartVariables} = reducer;
 
-  //onGetChartValues(id, VS_CURRENCY, 1392577232, 1422577232);
+  const getChartValuesByTime = () => {
+    const todays = Math.floor(new Date().getTime() / 1000);
+    const yesterdays = Math.floor(
+      new Date().setDate(new Date().getDate() - 1) / 1000,
+    );
+    const lastWeeks = Math.floor(
+      new Date().setDate(new Date().getDate() - 7) / 1000,
+    );
+    const lastMonths = Math.floor(
+      new Date().setMonth(new Date().getMonth() - 1) / 1000,
+    );
+    const lastYears = Math.floor(
+      new Date().setFullYear(new Date().getFullYear() - 1) / 1000,
+    );
+
+    if (twentyFourH) {
+      onGetChartValues(id, VS_CURRENCY, yesterdays, todays);
+    } else if (oneWeek) {
+      onGetChartValues(id, VS_CURRENCY, lastWeeks, todays);
+    } else if (oneMonth) {
+      onGetChartValues(id, VS_CURRENCY, lastMonths, todays);
+    } else if (oneYear) {
+      onGetChartValues(id, VS_CURRENCY, lastYears, todays);
+    } else if (all) {
+      onGetChartValues(id, VS_CURRENCY, yesterdays, todays); // find a way to get first value.
+    } else {
+      // it will show 24h as default
+      onGetChartValues(id, VS_CURRENCY, yesterdays, todays);
+    }
+  };
+
+  useEffect(() => {
+    getChartValuesByTime();
+  }, [twentyFourH, oneWeek, oneMonth, oneYear, all]);
+
+  const handleChartTime = (title: string) => {
+    switch (title) {
+      case '24h':
+        setTwentyFourH(true);
+        setOneWeek(false);
+        setOneMonth(false);
+        setOneYear(false);
+        setAll(false);
+        break;
+      case '1W':
+        setTwentyFourH(false);
+        setOneWeek(true);
+        setOneMonth(false);
+        setOneYear(false);
+        setAll(false);
+        break;
+      case '1M':
+        setTwentyFourH(false);
+        setOneWeek(false);
+        setOneMonth(true);
+        setOneYear(false);
+        setAll(false);
+        break;
+      case '1Y':
+        setTwentyFourH(false);
+        setOneWeek(false);
+        setOneMonth(false);
+        setOneYear(true);
+        setAll(false);
+        break;
+      case 'All':
+        setTwentyFourH(false);
+        setOneWeek(false);
+        setOneMonth(false);
+        setOneYear(false);
+        setAll(true);
+        break;
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -141,8 +223,35 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
           </Text>
         </View>
 
-        <View style={{marginTop: 10}}>
-          <ChartCard data2={chartVariables.prices} />
+        <View style={styles.chart_container}>
+          <ChartCard data={chartVariables} />
+          <View style={styles.time_button_container}>
+            <ChartButton
+              isChoosed={twentyFourH}
+              onTap={() => handleChartTime('24h')}
+              title="24h"
+            />
+            <ChartButton
+              isChoosed={oneWeek}
+              onTap={() => handleChartTime('1W')}
+              title="1W"
+            />
+            <ChartButton
+              isChoosed={oneMonth}
+              onTap={() => handleChartTime('1M')}
+              title="1M"
+            />
+            <ChartButton
+              isChoosed={oneYear}
+              onTap={() => handleChartTime('1Y')}
+              title="1Y"
+            />
+            <ChartButton
+              isChoosed={all}
+              onTap={() => handleChartTime('All')}
+              title="All"
+            />
+          </View>
         </View>
 
         <ButtonWithText
@@ -214,12 +323,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  chart_container: {
+    marginTop: 10,
+  },
+  time_button_container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 10,
+    marginRight: 10,
+  },
   overview_container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginLeft: 3,
     marginRight: 30,
-    marginTop: 25,
+    marginTop: 10,
   },
   account_button_container: {
     borderTopColor: STONEWALL_GREY,
@@ -272,7 +390,7 @@ const styles = StyleSheet.create({
   overview_title: {
     fontSize: 25,
     color: WILD_IRIS,
-    marginTop: 25,
+    marginTop: 10,
     fontWeight: '600',
     fontFamily: 'Montserrat-Regular',
   },
