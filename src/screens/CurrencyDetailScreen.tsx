@@ -17,7 +17,6 @@ import ChartCard from '../components/ChartCard';
 import {OverviewInfo} from '../components/OverviewInfo';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import {getChartValuesByTime} from '../utils/functions';
 
 import {
   AMERICAN_PINK,
@@ -83,6 +82,9 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
       new Date().setFullYear(new Date().getFullYear() - 1) / 1000,
     );
 
+    const allTime = 1230937200; // Jan 3 2009
+    // I used the date that Bitcoin came out, which is the first cryptocurrency.
+
     if (twentyFourH) {
       onGetChartValues(id, VS_CURRENCY, yesterdays, todays);
     } else if (oneWeek) {
@@ -92,7 +94,7 @@ const _CurrencyDetailScreen: React.FC<CurrencyDetailProps> = ({
     } else if (oneYear) {
       onGetChartValues(id, VS_CURRENCY, lastYears, todays);
     } else if (all) {
-      onGetChartValues(id, VS_CURRENCY, yesterdays, todays); // find a way to get first value.
+      onGetChartValues(id, VS_CURRENCY, allTime, todays);
     } else {
       // it will show 24h as default
       onGetChartValues(id, VS_CURRENCY, yesterdays, todays);
@@ -329,8 +331,9 @@ const styles = StyleSheet.create({
   time_button_container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 15,
   },
   overview_container: {
     flexDirection: 'row',
@@ -356,13 +359,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   name: {
-    fontSize: 25,
+    fontSize: 23,
     marginLeft: 10,
     color: WILD_IRIS,
     fontFamily: 'Montserrat-Regular',
     fontWeight: '600',
+    alignSelf: 'center',
   },
-
   price_text: {
     fontSize: 30,
     color: WILD_IRIS,

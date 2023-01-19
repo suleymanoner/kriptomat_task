@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   top_container: {
     flexDirection: 'row',
     marginTop: 50,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   middle_container: {
     flex: 1,
@@ -172,8 +172,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   back_arrow: {
-    position: 'absolute',
-    left: 0,
     marginLeft: 10,
     alignSelf: 'center',
   },
@@ -182,11 +180,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 23,
-    marginLeft: 10,
     color: WILD_IRIS,
     fontFamily: 'Montserrat-Regular',
     fontWeight: '600',
     alignSelf: 'center',
+    textAlign: 'center',
+    flex: 1,
+    marginRight: 40,
   },
   coin_and_price_text: {
     fontSize: 15,
