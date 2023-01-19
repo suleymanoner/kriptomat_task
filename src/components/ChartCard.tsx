@@ -33,4 +33,5 @@ const ChartCard: React.FC<ChartCardProps> = ({data}) => {
   );
 };
 
+
 export default ChartCard;

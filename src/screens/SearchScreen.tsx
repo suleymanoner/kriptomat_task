@@ -175,16 +175,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     marginLeft: 10,
+    alignSelf: 'center',
   },
   list_style: {
     marginTop: 10,
   },
   title: {
-    fontSize: 25,
+    fontSize: 23,
     marginLeft: 10,
     color: WILD_IRIS,
     fontFamily: 'Montserrat-Regular',
     fontWeight: '600',
+    alignSelf: 'center',
   },
   coin_and_price_text: {
     fontSize: 15,

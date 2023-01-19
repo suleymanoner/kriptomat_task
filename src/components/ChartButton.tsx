@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   name: {
-    fontSize: 20,
+    fontSize: 15,
     alignSelf: 'center',
     fontFamily: 'Montserrat-Regular',
     fontWeight: '500',

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: WATER_BLUE,
   },
   button_text: {
-    fontSize: 17,
+    fontSize: 14,
     color: WHITE,
     fontWeight: '600', // it doesn't look like bold in android.
     fontFamily: 'Montserrat-Regular',
